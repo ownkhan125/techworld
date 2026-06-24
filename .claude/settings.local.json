@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git clone *)",
+      "Bash(mkdir -p \"C:/Users/General/Documents/GitHub/techworld/.claude/skills\")",
+      "Bash(cp -r /tmp/playwright-skill-temp/skills/playwright-skill \"C:/Users/General/Documents/GitHub/techworld/.claude/skills/\")",
+      "Bash(npm run *)",
+      "Bash(npx --yes create-next-app@latest . --js --tailwind --app --src-dir --import-alias \"@/*\" --eslint --turbopack --use-npm --yes)"
+    ]
+  }
+}
