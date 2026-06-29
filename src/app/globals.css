@@ -1,26 +1,1051 @@
 @import "tailwindcss";
 
+/* ----- snap scroll: smooth programmatic scrolls + navbar offset ----- */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* ----------------------------------------------------------------
+   Techworld — Design System
+   Inspired by Raycast's tokenisation. Original palette / motion.
+---------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* surfaces */
+  --bg: #06070a;
+  --bg-2: #0a0c12;
+  --bg-3: #11141c;
+  --surface-1: rgba(255, 255, 255, 0.035);
+  --surface-2: rgba(255, 255, 255, 0.055);
+  --surface-3: rgba(255, 255, 255, 0.085);
+
+  /* foreground ladder */
+  --fg: #f5f7fb;
+  --fg-2: #cdd1d9;
+  --fg-3: #8e93a0;
+  --fg-4: #545968;
+  --fg-5: #2c303b;
+
+  /* hairlines */
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+
+  /* accents */
+  --accent-cyan: hsl(178 92% 66%);
+  --accent-cyan-soft: hsla(178, 92%, 66%, 0.14);
+  --accent-violet: hsl(262 90% 72%);
+  --accent-violet-soft: hsla(262, 90%, 72%, 0.14);
+  --accent-amber: hsl(38 95% 64%);
+  --accent-amber-soft: hsla(38, 95%, 64%, 0.14);
+  --accent-rose: hsl(348 92% 70%);
+  --accent-rose-soft: hsla(348, 92%, 70%, 0.14);
+
+  /* radii */
+  --r-xs: 4px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-xl: 26px;
+  --r-2xl: 36px;
+  --r-pill: 999px;
+
+  /* spacing scale (8pt) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-7: 32px;
+  --s-8: 40px;
+  --s-9: 56px;
+  --s-10: 72px;
+  --s-11: 96px;
+  --s-12: 128px;
+  --s-13: 176px;
+  --s-14: 224px;
+
+  /* layout */
+  --container: 1440px;
+  --container-narrow: 960px;
+  --nav-h: 64px;
+
+  /* easings */
+  --ease-out-q: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-cinema: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* shadows */
+  --shadow-key:
+    0 0 0 2px rgba(0, 0, 0, 0.55),
+    0 0 18px rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0.5px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.95);
+  --shadow-card:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 28px 60px -30px rgba(0, 0, 0, 0.8);
+  --shadow-glow-cyan:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(94, 240, 230, 0.18),
+    0 30px 80px -30px hsla(178, 92%, 66%, 0.32);
+  --shadow-glow-violet:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(167, 139, 250, 0.2),
+    0 30px 80px -30px hsla(262, 90%, 72%, 0.32);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --color-surface: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-fg-4: var(--fg-4);
+  --color-fg-5: var(--fg-5);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-cyan: var(--accent-cyan);
+  --color-cyan-soft: var(--accent-cyan-soft);
+  --color-violet: var(--accent-violet);
+  --color-violet-soft: var(--accent-violet-soft);
+  --color-amber: var(--accent-amber);
+  --color-amber-soft: var(--accent-amber-soft);
+  --color-rose: var(--accent-rose);
+  --color-rose-soft: var(--accent-rose-soft);
+
+  --radius-xs: var(--r-xs);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+  --radius-2xl: var(--r-2xl);
+  --radius-pill: var(--r-pill);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-geist-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ------ base ------ */
+html {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+  color-scheme: dark;
+}
+body {
+  background: transparent;
+  min-height: 100dvh;
+  letter-spacing: 0.005em;
+}
+
+::selection {
+  background: rgba(94, 240, 230, 0.25);
+  color: var(--fg);
+}
+
+/* ------ utility primitives ------ */
+.container-x {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 32px);
+}
+.container-narrow {
+  width: 100%;
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 32px);
+}
+.section-pad {
+  padding-block: clamp(72px, 12vw, 176px);
+}
+
+/* hairline grid background */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ------ custom Shift-keycap cursor (desktop only) ------ */
+html.has-custom-cursor,
+html.has-custom-cursor body,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+.cursor-shift {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg);
+  opacity: 0;
+  /* transform is owned by JS (translate3d + center offset) */
+  will-change: transform, opacity;
+  transition:
+    opacity 0.25s var(--ease-out-q),
+    color 0.18s var(--ease-out-q);
+  /* no background, no border, no shadow — pure glyph */
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.cursor-shift svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  transition: transform 0.18s var(--ease-out-q);
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.55));
+}
+.cursor-shift--visible {
+  opacity: 1;
+}
+.cursor-shift--hover svg {
+  transform: scale(1.18);
+}
+.cursor-shift--pressed {
+  color: var(--accent-cyan);
+}
+.cursor-shift--pressed svg {
+  transform: scale(0.85);
+}
+/* fall back to native cursor when reduced-motion preferred or coarse pointer */
+@media (prefers-reduced-motion: reduce), (pointer: coarse), (hover: none) {
+  html.has-custom-cursor,
+  html.has-custom-cursor body,
+  html.has-custom-cursor * {
+    cursor: auto !important;
+  }
+  .cursor-shift { display: none !important; }
+}
+
+/* ------ premium button (key cap) ------ */
+.btn-key {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding-inline: 16px;
+  border-radius: var(--r-sm);
+  background: linear-gradient(180deg, #ffffff, #dadde2);
+  color: #0d0f14;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  box-shadow: var(--shadow-key);
+  transition:
+    transform 0.12s var(--ease-soft),
+    box-shadow 0.25s var(--ease-out-q),
+    background 0.25s var(--ease-out-q);
+  isolation: isolate;
+}
+.btn-key:hover {
+  background: linear-gradient(180deg, #ffffff, #ffffff);
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.55),
+    0 0 28px rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0.5px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0.5px rgba(255, 255, 255, 1);
+}
+.btn-key:active {
+  transform: translateY(1px);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding-inline: 16px;
+  border-radius: var(--r-sm);
+  color: var(--fg-2);
+  font-size: 14px;
+  font-weight: 500;
+  background: transparent;
+  border: 1px solid var(--line);
+  transition: color 0.25s var(--ease-out-q),
+    background 0.25s var(--ease-out-q),
+    border-color 0.25s var(--ease-out-q);
+}
+.btn-ghost:hover {
+  color: var(--fg);
+  background: var(--surface-2);
+  border-color: var(--line-strong);
+}
+
+/* ------ frosted card ------ */
+.card {
+  position: relative;
+  border-radius: var(--r-xl);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: background 0.4s var(--ease-out-q),
+    box-shadow 0.4s var(--ease-out-q),
+    transform 0.4s var(--ease-out-q);
+}
+.card:hover {
+  background: var(--surface-2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    0 40px 80px -30px rgba(0, 0, 0, 0.9);
+}
+
+/* ------ reveal-on-scroll (IO toggles .is-visible) ------ */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition: opacity 0.9s var(--ease-out-cinema),
+    transform 0.9s var(--ease-out-cinema);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition: opacity 0.9s var(--ease-out-cinema),
+    transform 0.9s var(--ease-out-cinema);
+}
+.reveal-stagger.is-visible > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+.reveal-stagger.is-visible > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 80ms; }
+.reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 160ms; }
+.reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 240ms; }
+.reveal-stagger.is-visible > *:nth-child(5) { transition-delay: 320ms; }
+.reveal-stagger.is-visible > *:nth-child(6) { transition-delay: 400ms; }
+.reveal-stagger.is-visible > *:nth-child(7) { transition-delay: 480ms; }
+.reveal-stagger.is-visible > *:nth-child(8) { transition-delay: 560ms; }
+
+/* split-text reveal:
+   - parent gets .split, toggled .is-visible by IO
+   - each word is wrapped in .split-word (mask) holding a .split-inner that slides up
+   - mask includes descender room via padding/negative margin so 'g','y','f' aren't clipped
+*/
+.split {
+  /* allow natural text flow */
+}
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.06em 0 0.18em 0;
+  margin: -0.06em 0 -0.18em 0;
+}
+.split-inner {
+  display: inline-block;
+  transform: translate3d(0, 110%, 0);
+  transition: transform 1s var(--ease-out-cinema);
+  will-change: transform;
+}
+.split.is-visible .split-inner {
+  transform: translate3d(0, 0, 0);
+}
+
+/* infinite marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 32s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ------ horizontal scroll-snap reel (Raycast-style) ------ */
+.reel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 24px;
+  padding-inline: 24px;
+  padding-block: 8px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgb(0, 0, 0) 48px,
+    rgb(0, 0, 0) calc(100% - 96px),
+    rgba(0, 0, 0, 0)
+  );
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgb(0, 0, 0) 48px,
+    rgb(0, 0, 0) calc(100% - 96px),
+    rgba(0, 0, 0, 0)
+  );
+}
+.reel::-webkit-scrollbar { display: none; }
+.reel > * {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+
+/* hide scrollbars utility */
+.hide-scrollbars { scrollbar-width: none; }
+.hide-scrollbars::-webkit-scrollbar { display: none; }
+
+/* keycap action button (Raycast plus-button look) */
+.keycap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.85);
+  transition:
+    color 0.25s var(--ease-out-q),
+    background 0.25s var(--ease-out-q),
+    box-shadow 0.25s var(--ease-out-q);
+}
+.keycap:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* round arrow control (carousel buttons) */
+.arrow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition:
+    color 0.25s var(--ease-out-q),
+    background 0.25s var(--ease-out-q),
+    transform 0.25s var(--ease-out-q),
+    box-shadow 0.25s var(--ease-out-q);
+}
+.arrow-btn:hover:not(:disabled) {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+.arrow-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* typewriter caret */
+.type-caret::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: currentColor;
+  animation: blink 1.1s steps(2, jump-none) infinite;
+}
+
+/* glow orbs */
+@keyframes orbit {
+  0% { transform: translate3d(-10%, 0, 0); }
+  50% { transform: translate3d(10%, -4%, 0); }
+  100% { transform: translate3d(-10%, 0, 0); }
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: orbit 18s ease-in-out infinite;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.cursor-blink {
+  animation: blink 1.1s steps(2, jump-none) infinite;
+}
+
+/* SVG path draw */
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* spring-style pop in */
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.92); }
+  60% { opacity: 1; transform: scale(1.03); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ===== Game-card: 3D interactive feature pill =====
+   Layer structure:
+     .game-card             (outer; perspective + idle animation; receives hover)
+       .game-card__inner    (preserve-3d; receives mouse-tracked rX/rY via JS vars)
+         .game-card__bg     (translateZ 0 — pane)
+         .game-card__glow   (translateZ 0 — under-glow)
+         .game-card__icon   (translateZ 38px — pops forward)
+         .game-card__title  (translateZ 22px)
+         .game-card__sub    (translateZ 12px)
+*/
+@keyframes gameIdle {
+  0%   { transform: translate3d(0, 0, 0)        rotateX(0deg)   rotateY(0deg); }
+  25%  { transform: translate3d(0, -3px, 0)     rotateX(1.2deg) rotateY(-1.4deg); }
+  50%  { transform: translate3d(0, 0, 0)        rotateX(0deg)   rotateY(0deg); }
+  75%  { transform: translate3d(0, 3px, 0)      rotateX(-1.2deg) rotateY(1.4deg); }
+  100% { transform: translate3d(0, 0, 0)        rotateX(0deg)   rotateY(0deg); }
+}
+
+.game-card {
+  position: relative;
+  perspective: 800px;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.game-card__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  /* JS sets --rx and --ry on hover; baseline 0 0 */
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(var(--lift, 0px));
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: gameIdle 7s var(--ease-out-q) infinite;
+  animation-delay: var(--idle-delay, 0ms);
+  will-change: transform;
+}
+/* When hovered we suspend the idle animation so JS-driven tilt is precise */
+@media (hover: hover) and (pointer: fine) {
+  .game-card:hover .game-card__inner {
+    animation-play-state: paused;
+    transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .game-card:hover .game-card__glow {
+    opacity: 1;
+  }
+  .game-card:hover .game-card__icon {
+    transform: translate3d(0, -2px, 60px) scale(1.06);
+  }
+  .game-card:hover .game-card__shine {
+    opacity: 1;
+  }
+}
+.game-card__layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.game-card__bg {
+  border-radius: inherit;
+  background: var(--gc-bg, linear-gradient(180deg, rgba(20,22,30,0.92), rgba(14,16,22,0.96)));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 28px 60px -28px rgba(0, 0, 0, 0.65);
+}
+.game-card__glow {
+  border-radius: inherit;
+  opacity: 0.65;
+  transition: opacity 0.5s var(--ease-out-q);
+  background: var(--gc-glow, radial-gradient(60% 60% at 50% 30%, rgba(255,255,255,0.06), transparent 70%));
+  filter: blur(8px);
+}
+.game-card__shine {
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-q);
+  background:
+    radial-gradient(140px circle at var(--mx, 50%) var(--my, 0%),
+      rgba(255, 255, 255, 0.16),
+      transparent 60%);
+  mix-blend-mode: screen;
+}
+.game-card__icon {
+  display: inline-flex;
+  transform: translate3d(0, 0, 38px);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.game-card__title {
+  transform: translate3d(0, 0, 22px);
+}
+.game-card__sub {
+  transform: translate3d(0, 0, 12px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-card__inner { animation: none !important; transform: none !important; }
+}
+
+/* ===== LiveCard — for larger content cards =====
+   Visible solid chrome + subtle continuous idle float + mouse-tracked hover tilt
+   Layers via .live-card__layer with --depth variable for individual Z translation.
+*/
+@keyframes liveIdle {
+  0%   { transform: translate3d(0, 0, 0)        rotateX(0deg)   rotateY(0deg); }
+  25%  { transform: translate3d(0, -2px, 0)     rotateX(0.5deg) rotateY(-0.6deg); }
+  50%  { transform: translate3d(0, 0, 0)        rotateX(0deg)   rotateY(0deg); }
+  75%  { transform: translate3d(0, 2px, 0)      rotateX(-0.5deg) rotateY(0.6deg); }
+  100% { transform: translate3d(0, 0, 0)        rotateX(0deg)   rotateY(0deg); }
+}
+.live-card {
+  position: relative;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  will-change: transform;
+  border-radius: var(--lc-radius, 18px);
+}
+.live-card__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lc-bg, linear-gradient(180deg, rgba(24,26,34,0.94), rgba(15,17,24,0.97)));
+  /* Strong, premium border + inset highlight + drop shadow */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.10),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 30px 60px -24px rgba(0, 0, 0, 0.85),
+    0 0 0 1px var(--lc-border, rgba(255, 255, 255, 0.20));
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(var(--lift, 0px));
+  transition:
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: liveIdle 9s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  animation-delay: var(--idle-delay, 0ms);
+  will-change: transform;
+  overflow: hidden;
+}
+.live-card__glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  background: var(--lc-glow, radial-gradient(60% 70% at 50% 0%, hsla(178,92%,66%,0.25), transparent 70%));
+  z-index: 0;
+}
+.live-card__shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  background:
+    radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%),
+      rgba(255, 255, 255, 0.10),
+      transparent 60%);
+  mix-blend-mode: screen;
+  z-index: 1;
+}
+.live-card__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+.live-card__layer {
+  transform: translate3d(0, 0, var(--depth, 0px));
+  will-change: transform;
+}
+@media (hover: hover) and (pointer: fine) {
+  .live-card:hover .live-card__inner {
+    animation-play-state: paused;
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+      0 50px 100px -30px rgba(0, 0, 0, 0.9),
+      0 0 0 1px var(--lc-border-hover, rgba(255, 255, 255, 0.22));
+  }
+  .live-card:hover .live-card__glow,
+  .live-card:hover .live-card__shine {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-card__inner { animation: none !important; transform: none !important; }
+}
+
+/* ===== Keyboard key — premium uniform key in a grid =====
+   Every cell of the Ergonomics grid is a real visible key.
+   Dark base + top inset highlight + bottom inset shadow + 1px border + drop shadow.
+   Idle breathe stagger via --idle-delay. Hover lifts + glows in CSS only.
+   --tone-* vars allow an "active" variant to carry a brand tint.
+*/
+/* ===== Keyboard cubes — each cell is a small 3D cube =====
+   Structure:
+     .kbd-key (grid cell)
+       .kbd-key__inner   — transform-style preserve-3d, the rotating cube
+         .kbd-key__face--front  (translateZ +D/2)
+         .kbd-key__face--back   (rotateY 180  translateZ +D/2)
+   Faces carry the chrome (bg, border, shadow, icon). backface-visibility hides
+   the non-facing side so we never see content through the back of a face.
+   --kbd-depth controls cube depth.
+*/
+@keyframes kbdActive {
+  0%   { transform: translate3d(0, 0, 0)   rotateX(0deg)  rotateY(0deg);  }
+  40%  { transform: translate3d(0, -2px, 0) rotateX(8deg) rotateY(10deg); }
+  80%  { transform: translate3d(0, 0, 0)    rotateX(0deg) rotateY(0deg);  }
+  100% { transform: translate3d(0, 0, 0)    rotateX(0deg) rotateY(0deg);  }
+}
+.kbd-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  perspective: 1100px;
+}
+.kbd-key {
+  position: relative;
+  aspect-ratio: 1;
+  transform-style: preserve-3d;
+  will-change: transform;
+  --kbd-depth: 14px;
+}
+.kbd-key__inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.kbd-key__face {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--kbd-top, rgba(30,32,40,0.96)) 0%, var(--kbd-bottom, rgba(14,16,22,0.98)) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.10),
+    inset 0 0 0 1px var(--kbd-border, rgba(255, 255, 255, 0.10)),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.6),
+    0 8px 18px -6px rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  transition: box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.kbd-key__face--front { transform: translateZ(calc(var(--kbd-depth) / 2)); }
+.kbd-key__face--back  { transform: rotateY(180deg) translateZ(calc(var(--kbd-depth) / 2)); }
+/* Shine sweep — premium hover detail (front only) */
+.kbd-key__face--front::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.10) 50%,
+    transparent 70%);
+  transform: translateX(-110%);
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+/* Idle animation fires only on selected keys */
+.kbd-key[data-animating="1"] .kbd-key__inner {
+  animation: kbdActive 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+.kbd-key__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--kbd-icon, rgba(255, 255, 255, 0.85));
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+  pointer-events: none;
+}
+.kbd-key--active {
+  /* tone-overridden via inline CSS vars */
+}
+.kbd-key--active .kbd-key__face {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 0 0 1px var(--kbd-border, rgba(255, 255, 255, 0.36)),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.6),
+    0 12px 26px -10px rgba(0, 0, 0, 0.65),
+    0 0 18px var(--kbd-glow, rgba(255, 255, 255, 0.10));
+}
+@media (hover: hover) and (pointer: fine) {
+  .kbd-key:hover {
+    z-index: 5;
+  }
+  .kbd-key:hover .kbd-key__inner {
+    /* lift + cube flip — back face becomes visible */
+    animation: none;
+    transform: translate3d(0, -10px, 0) rotateX(6deg) rotateY(180deg) scale(1.04);
+  }
+  .kbd-key:hover .kbd-key__face {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      inset 0 0 0 1px var(--kbd-border-hover, rgba(255, 255, 255, 0.40)),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.6),
+      0 30px 50px -12px rgba(0, 0, 0, 0.85),
+      0 0 36px var(--kbd-glow, rgba(255, 255, 255, 0.24));
+  }
+  .kbd-key:hover .kbd-key__face--front::before {
+    transform: translateX(110%);
+  }
+  .kbd-key:hover .kbd-key__icon {
+    transform: scale(1.14);
+    color: rgba(255, 255, 255, 1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kbd-key[data-animating="1"] .kbd-key__inner { animation: none !important; }
+  .kbd-key:hover .kbd-key__inner { transform: translate3d(0, -4px, 0) !important; }
+}
+
+/* ===== Developer "Build the perfect tools" — 2-col, hairline cells ===== */
+/* Section has no background of its own; each cell is a solid window of
+   var(--bg) on top of whatever the page background is (incl. particles).
+   Cells share hairlines via box-shadow so adjacent edges render as one line. */
+.dev-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  position: relative;
+  isolation: isolate;
+}
+@media (min-width: 768px) {
+  .dev-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.dev-fig {
+  position: relative;
+  min-height: 280px;
+  padding: 28px 28px;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  transition: transform 0.5s var(--ease-out-q);
+  /* hairline trick: outer 1px ring shared with neighbours */
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07);
+  /* stagger reveal */
+  opacity: 0;
+  transform: translateY(18px);
+}
+@media (min-width: 768px) {
+  .dev-fig { min-height: 360px; padding: 32px 34px; }
+}
+@media (min-width: 1280px) {
+  .dev-fig { min-height: 400px; padding: 36px 40px; }
+}
+/* Outside cinematic sections: keep the original IO-based stagger reveal */
+.is-visible .dev-fig,
+.reveal.is-visible .dev-fig {
+  animation: devFigIn 0.9s var(--ease-out-cinema) forwards;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+@keyframes devFigIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+/* Inside cinematic sections: the parent frame stage handles the reveal —
+   suppress the IO keyframe so cells don't double-animate or peek through.
+   CardConstruct owns initial state (gsap.set) so we don't fight it here. */
+[data-cinematic] .dev-fig {
+  animation: none !important;
+}
+
+/* ===== CardConstruct hover continuation =====
+   Once a card has played its construction reveal it gets .card-built. From
+   then on, hover continues the "perspective" language: a subtle forward
+   lift + a hair of rotateX restored to 0 from a tiny resting tilt, plus a
+   stronger soft glow. Pure CSS so it stays smooth at 60fps and doesn't
+   reignite the GSAP timeline. */
+.dev-fig.card-built,
+.ext-card.card-built {
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .dev-fig.card-built:hover {
+    transform: translate3d(0, -3px, 0) perspective(1400px) rotateX(2deg);
+  }
+  .ext-card.card-built:hover {
+    /* the existing .ext-card class has hover:-translate-y-1 — augment with
+       perspective so the lift feels 3D rather than flat */
+    transform: translate3d(0, -6px, 0) perspective(1400px) rotateX(2deg) !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.dev-fig__label {
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  color: var(--fg-4);
+  z-index: 2;
+  text-transform: uppercase;
 }
+.dev-fig__arrow {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-4);
+  transition:
+    color 0.4s var(--ease-out-q),
+    transform 0.4s var(--ease-out-q);
+  z-index: 2;
+}
+.dev-fig__stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+  margin-top: 40px;
+  transition: transform 0.7s var(--ease-out-cinema);
+  will-change: transform;
+}
+.dev-fig__stage > svg {
+  display: block;
+  max-width: 78%;
+  height: auto;
+}
+@media (min-width: 1024px) {
+  .dev-fig__stage > svg { max-width: 88%; }
+}
+
+.dev-fig--text {
+  justify-content: flex-end;
+}
+.dev-fig--text .dev-fig__stage { display: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  .dev-fig {
+    cursor: default;
+  }
+  .dev-fig:hover .dev-fig__arrow {
+    color: var(--fg);
+    transform: translate(2px, -2px);
+  }
+  .dev-fig:hover .dev-fig__stage {
+    transform: translateY(-3px) scale(1.015);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dev-fig { opacity: 1; transform: none; animation: none !important; }
+  .dev-fig:hover .dev-fig__stage { transform: none; }
+}
+
+/* Cinematic sections suppress nested IO-based reveals on Reveal wrappers —
+   the parent timeline owns wrapper orchestration. SplitText keeps its own
+   IO-driven word-by-word animation (inside the revealed wrapper).
+   Perspective on the section root enables subtle 3D depth for media lifts. */
+[data-cinematic] {
+  perspective: 1400px;
+}
+[data-cinematic] .reveal,
+[data-cinematic] .reveal-stagger {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+
+/* Stage GPU hint. Initial visual state is owned by GSAP (gsap.set) so we
+   don't fight inline tweens with cascading CSS. */
+[data-stage] {
+  will-change: transform, opacity, clip-path, mask-position, filter;
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-stage] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    filter: none !important;
+    will-change: auto;
+  }
+}
+
+/* reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* scrollbar (subtle) */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.12); }
