@@ -47,7 +47,15 @@
       "Bash(node run.js /c/Users/General/AppData/Local/Temp/playwright-width-qa.js)",
       "Bash(node run.js /c/Users/General/AppData/Local/Temp/playwright-codepen2-probe.js)",
       "Bash(node run.js /c/Users/General/AppData/Local/Temp/playwright-parallax-qa.js)",
-      "Bash(node run.js /c/Users/General/AppData/Local/Temp/playwright-snap-qa.js)"
+      "Bash(node run.js /c/Users/General/AppData/Local/Temp/playwright-snap-qa.js)",
+      "Bash(npx next *)",
+      "Read(//c/Users/General/.claude/skills/**)",
+      "Read(//c/Users/General/.claude/plugins/marketplaces/**)",
+      "Bash(node run.js /tmp/playwright-test-scroll.js)",
+      "Bash(node run.js C:/tmp/playwright-test-scroll.js)",
+      "Bash(node run.js C:/tmp/playwright-audit.js)",
+      "Bash(node run.js C:/tmp/playwright-closeup.js)",
+      "Bash(node run.js C:/tmp/playwright-body-overflow.js)"
     ]
   }
 }

@@ -14,7 +14,7 @@ export default function Hero() {
     <CinematicSection
       id="top"
       mode="onload"
-      className="relative isolate overflow-hidden pt-32 sm:pt-40 pb-24 sm:pb-32"
+      className="relative isolate overflow-hidden pt-28 sm:pt-36 pb-16 sm:pb-20"
     >
       {/* radial focus vignette so text reads cleanly on the particle field */}
       <div

@@ -26,7 +26,7 @@ const SOCIALS = [
 
 export default function Community() {
   return (
-    <CinematicSection id="cta" className="relative pb-24 pt-8 sm:pb-32">
+    <CinematicSection id="cta" className="relative pb-16 pt-6 sm:pb-24">
       <div className="container-x">
         {/* big closing line */}
         <div className="mx-auto max-w-[900px] text-center">
@@ -55,7 +55,7 @@ export default function Community() {
         </div>
 
         {/* socials cards (interactive LiveCards) */}
-        <div className="mt-20 grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-2">
+        <div className="mt-14 grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-2 sm:mt-16">
           {SOCIALS.map((s, i) => (
             <Reveal key={s.title} delay={i * 100} data-stage="media">
               <LiveCard

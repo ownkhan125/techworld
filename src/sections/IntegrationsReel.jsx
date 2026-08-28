@@ -137,7 +137,7 @@ export default function IntegrationsReel() {
       <div
         ref={reelRef}
         data-stage="media"
-        className="reel mt-10 -mx-[max(20px,4vw)]"
+        className="reel mt-8 -mx-[max(20px,4vw)] sm:mt-10"
         style={{ paddingInline: "max(20px, 4vw)" }}
       >
         {ITEMS.map((it, i) => (

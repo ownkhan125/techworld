@@ -148,18 +148,29 @@ const TONE_BORDER = {
   emerald: "rgba(94,234,212,0.50)",
 };
 
-const CARD_WIDTH = 320; // px
-const CARD_GAP = 16;    // px
+// Responsive card sizing — 320px fixed pushes the active card past the edge
+// fades on small phones. Shrink to 250 under 480px, 280 under 640px so the
+// coverflow strip breathes at every viewport.
+const CARD_GAP = 16; // px
+function computeCardWidth(w) {
+  if (w < 480) return 250;
+  if (w < 640) return 280;
+  return 320;
+}
 
 export default function Testimonials() {
   const [active, setActive] = useState(Math.floor(PEOPLE.length / 2));
   const stripRef = useRef(null);
   const wrapRef = useRef(null);
   const [wrapWidth, setWrapWidth] = useState(0);
+  const [cardWidth, setCardWidth] = useState(320);
 
   // measure outer wrap width on mount + resize
   useEffect(() => {
-    const onResize = () => setWrapWidth(wrapRef.current?.clientWidth || 0);
+    const onResize = () => {
+      setWrapWidth(wrapRef.current?.clientWidth || 0);
+      setCardWidth(computeCardWidth(window.innerWidth));
+    };
     onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -187,8 +198,8 @@ export default function Testimonials() {
   // calculate translateX so the active card is centered in the wrap
   const offset =
     wrapWidth / 2 -
-    active * (CARD_WIDTH + CARD_GAP) -
-    CARD_WIDTH / 2;
+    active * (cardWidth + CARD_GAP) -
+    cardWidth / 2;
 
   return (
     <CinematicSection id="customers" className="section-pad relative overflow-hidden">
@@ -204,7 +215,7 @@ export default function Testimonials() {
           <div
             ref={wrapRef}
             tabIndex={0}
-            className="relative mt-14 outline-none focus-visible:ring-2 focus-visible:ring-cyan/40 focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded-2xl"
+            className="relative mt-10 sm:mt-14 outline-none focus-visible:ring-2 focus-visible:ring-cyan/40 focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded-2xl"
             aria-roledescription="carousel"
             aria-label="Customer testimonials"
           >
@@ -238,7 +249,7 @@ export default function Testimonials() {
                       aria-current={isActive}
                       className="group flex shrink-0 items-center gap-3 rounded-2xl border bg-bg-2/85 px-4 py-3 text-left backdrop-blur-md"
                       style={{
-                        width: `${CARD_WIDTH}px`,
+                        width: `${cardWidth}px`,
                         borderColor: isActive
                           ? "rgba(255,255,255,0.22)"
                           : "rgba(255,255,255,0.08)",
@@ -321,7 +332,7 @@ export default function Testimonials() {
         </Reveal>
 
         {/* DETAIL PANEL */}
-        <div data-stage="body" className="relative mt-14 grid grid-cols-1 gap-10 border-t border-line pt-10 lg:grid-cols-2 lg:gap-16">
+        <div data-stage="body" className="relative mt-10 grid grid-cols-1 gap-8 border-t border-line pt-8 sm:mt-14 sm:gap-10 sm:pt-10 lg:grid-cols-2 lg:gap-16">
           <div
             key={`left-${a.handle}`}
             className="space-y-8"
