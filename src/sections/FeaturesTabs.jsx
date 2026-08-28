@@ -25,9 +25,13 @@ export default function FeaturesTabs() {
   useEffect(() => {
     const node = tabsRef.current[active];
     if (!node) return;
-    const r = node.getBoundingClientRect();
-    const parent = node.parentElement.getBoundingClientRect();
-    setIndicator({ left: r.left - parent.left, width: r.width });
+    setIndicator({ left: node.offsetLeft, width: node.offsetWidth });
+    // keep active tab visible when the pill container overflows horizontally
+    const parent = node.parentElement;
+    if (parent && parent.scrollWidth > parent.clientWidth) {
+      const target = node.offsetLeft - (parent.clientWidth - node.offsetWidth) / 2;
+      parent.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
+    }
   }, [active]);
 
   // re-measure on resize
@@ -35,9 +39,7 @@ export default function FeaturesTabs() {
     const onResize = () => {
       const node = tabsRef.current[active];
       if (!node) return;
-      const r = node.getBoundingClientRect();
-      const parent = node.parentElement.getBoundingClientRect();
-      setIndicator({ left: r.left - parent.left, width: r.width });
+      setIndicator({ left: node.offsetLeft, width: node.offsetWidth });
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -54,8 +56,11 @@ export default function FeaturesTabs() {
         />
 
         {/* tab bar */}
-        <Reveal data-stage="frame" className="mt-12 flex justify-center">
-          <div className="relative inline-flex flex-wrap items-center justify-center gap-1 rounded-full border border-line bg-bg/60 p-1 backdrop-blur-md">
+        <Reveal
+          data-stage="frame"
+          className="mt-10 flex justify-center sm:mt-12"
+        >
+          <div className="relative inline-flex max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-line bg-bg/60 p-1 backdrop-blur-md sm:gap-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {/* sliding indicator */}
             <span
               aria-hidden
@@ -75,7 +80,7 @@ export default function FeaturesTabs() {
                 ref={(el) => (tabsRef.current[i] = el)}
                 onClick={() => setActive(i)}
                 className={
-                  "relative z-10 inline-flex h-9 items-center rounded-full px-4 text-[13px] font-medium tracking-tight transition-colors duration-300 " +
+                  "relative z-10 inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-2 text-[12px] font-medium tracking-tight transition-colors duration-300 sm:h-9 sm:px-4 sm:text-[13px] " +
                   (active === i ? "text-fg" : "text-fg-3 hover:text-fg")
                 }
                 aria-current={active === i}
@@ -90,7 +95,7 @@ export default function FeaturesTabs() {
         <div
           ref={trackRef}
           data-stage="media"
-          className="relative mt-14 flex h-[480px] items-center justify-center sm:h-[540px] md:h-[600px]"
+          className="relative mt-10 flex h-[440px] items-center justify-center sm:mt-14 sm:h-[540px] md:h-[600px]"
         >
           {TABS.map((t, i) => (
             <div

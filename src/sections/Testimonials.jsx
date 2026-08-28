@@ -381,8 +381,8 @@ export default function Testimonials() {
 
 function DetailRow({ label, pill, icon, tone = "violet", body }) {
   return (
-    <div className="grid grid-cols-[140px_1fr] items-start gap-4 sm:grid-cols-[170px_1fr] sm:gap-6">
-      <p className="pt-1 font-mono text-[11px] uppercase tracking-[0.22em] text-fg-4">
+    <div className="grid grid-cols-1 gap-2 sm:grid-cols-[170px_1fr] sm:items-start sm:gap-6">
+      <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-fg-4 sm:pt-1">
         {label}:
       </p>
       <div>

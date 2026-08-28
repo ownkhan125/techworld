@@ -1,35 +1,14 @@
 @import "tailwindcss";
 
-/* ----- section navigation: navbar offset only -----
-   Lenis owns the smooth-scroll pipeline (see SmoothScrollProvider) so the
-   native `scroll-behavior: smooth` rule is intentionally omitted here — the
-   two competing on the same anchor click causes a visible double-easing.
-   scroll-padding-top keeps hash targets clear of the floating navbar for the
-   reduced-motion fallback (which uses native scroll). */
+/* ----- navbar clearance for anchor jumps -----
+   The scroll pipeline is GSAP + ScrollTrigger. Anchor-link smoothing is
+   done by GSAP's ScrollToPlugin (see SmoothScrollProvider), NOT the CSS
+   `scroll-behavior: smooth` rule — the two competing on the same jump
+   causes GSAP's autoKill to abort the tween mid-flight.
+   `scroll-padding-top` still applies to reduced-motion / no-JS fallback so
+   the browser's own anchor jump lands below the floating navbar. */
 html {
   scroll-padding-top: 80px;
-}
-
-/* ----- Lenis smooth-scroll runtime hooks -----
-   Inlined from lenis/dist/lenis.css to avoid pulling a package CSS through
-   Next's bundler. The `html.lenis` class is added at runtime by the Lenis
-   instance; these rules make its height calculations and prevent-scroll
-   opt-outs work correctly. */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
-.lenis [data-lenis-prevent],
-.lenis [data-lenis-prevent-wheel],
-.lenis [data-lenis-prevent-touch],
-.lenis [data-lenis-prevent-vertical],
-.lenis [data-lenis-prevent-horizontal] { overscroll-behavior: contain; }
-.lenis.lenis-smooth iframe { pointer-events: none; }
-.lenis.lenis-autoToggle {
-  transition-property: overflow;
-  transition-duration: 1ms;
-  transition-behavior: allow-discrete;
 }
 
 /* ----------------------------------------------------------------
@@ -169,6 +148,9 @@ html {
   text-rendering: optimizeLegibility;
   overflow-x: clip;
   color-scheme: dark;
+  /* `scroll-behavior: smooth` is declared once above alongside
+     scroll-padding-top so anchor easing and reduced-motion fallback stay
+     colocated. */
 }
 body {
   background: transparent;

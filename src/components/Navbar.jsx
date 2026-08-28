@@ -18,7 +18,7 @@ function Logo() {
     <Link
       href="#top"
       aria-label="Techworld home"
-      className="group flex items-center gap-2"
+      className="group flex min-w-0 shrink-0 items-center gap-2"
     >
       <span
         className="relative inline-flex size-7 items-center justify-center overflow-hidden rounded-md"
@@ -87,7 +87,7 @@ export default function Navbar() {
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:pt-4">
       <div
         className={cn(
-          "pointer-events-auto flex h-14 w-full max-w-[1440px] items-center justify-between rounded-2xl border border-line/80 px-3 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:px-4",
+          "pointer-events-auto flex h-14 w-full max-w-[1440px] items-center justify-between gap-2 rounded-2xl border border-line/80 px-3 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:px-4",
           scrolled
             ? "bg-bg/65 backdrop-blur-xl shadow-[0_20px_60px_-30px_rgba(0,0,0,0.8)]"
             : "bg-bg/35 backdrop-blur-md"
@@ -110,7 +110,10 @@ export default function Navbar() {
           >
             Sign in
           </Link>
-          <Link href="#cta" className="btn-key h-9 px-3.5 text-[13px]">
+          <Link
+            href="#cta"
+            className="btn-key h-9 whitespace-nowrap px-3 text-[13px] sm:px-3.5"
+          >
             Get access
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
               <path
@@ -126,7 +129,7 @@ export default function Navbar() {
             aria-label="Open menu"
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="ml-1 inline-flex size-9 items-center justify-center rounded-md border border-line text-fg-2 transition-colors hover:bg-surface lg:hidden"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md border border-line text-fg-2 transition-colors hover:bg-surface lg:hidden"
           >
             <span className="relative block h-3 w-4">
               <span

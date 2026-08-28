@@ -55,7 +55,19 @@
       "Bash(node run.js C:/tmp/playwright-test-scroll.js)",
       "Bash(node run.js C:/tmp/playwright-audit.js)",
       "Bash(node run.js C:/tmp/playwright-closeup.js)",
-      "Bash(node run.js C:/tmp/playwright-body-overflow.js)"
+      "Bash(node run.js C:/tmp/playwright-body-overflow.js)",
+      "Bash(npm uninstall *)",
+      "Bash(node run.js C:/tmp/playwright-verify-gsap.js)",
+      "Bash(node run.js C:/tmp/playwright-native-scroll.js)",
+      "Bash(node run.js C:/tmp/playwright-gsap-direct.js)",
+      "Bash(node run.js C:/Users/General/AppData/Local/Temp/playwright-test-mobile.js)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/)",
+      "Bash(node run.js C:/Users/General/AppData/Local/Temp/playwright-audit-mobile.js)",
+      "Bash(node run.js C:/Users/General/AppData/Local/Temp/playwright-section-audit.js)",
+      "Bash(node run.js C:/Users/General/AppData/Local/Temp/playwright-section-audit2.js)",
+      "Bash(node run.js \"C:/Users/General/AppData/Local/Temp/playwright-test-mobile320.js\")",
+      "Bash(node run.js \"C:/Users/General/AppData/Local/Temp/playwright-audit-sections.js\")",
+      "Bash(node run.js \"C:/Users/General/AppData/Local/Temp/playwright-verify.js\")"
     ]
   }
 }
