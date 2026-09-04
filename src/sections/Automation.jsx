@@ -84,24 +84,19 @@ export default function Automation() {
                     <br />
                     WA14 2DT Altrincham, Cheshire
                   </p>
-                  <div className="mt-3 flex items-center justify-between">
-                    <button
-                      type="button"
-                      className="keycap size-7"
-                      aria-label="Replay"
-                    >
+                  {/* Illustrative footer — this bubble is a static screenshot
+                      of a snippet expansion, so the icons here are visual only
+                      (aria-hidden) rather than dead buttons. */}
+                  <div aria-hidden className="mt-3 flex items-center justify-between text-fg-3">
+                    <span className="inline-flex size-7 items-center justify-center rounded-md border border-line/80 bg-bg/70">
                       <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-                        <path
-                          d="M3 7a4 4 0 117 2.5"
-                          stroke="currentColor"
-                          strokeWidth="1.4"
-                          strokeLinecap="round"
-                          fill="none"
-                        />
+                        <path d="M3 7a4 4 0 117 2.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" fill="none" />
                         <path d="M3 4v3h3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                       </svg>
-                    </button>
-                    <span className="btn-key h-7 px-2.5 text-[12px]">Send</span>
+                    </span>
+                    <span className="inline-flex h-7 items-center rounded-md border border-line/80 bg-bg/70 px-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-fg-3">
+                      expanded
+                    </span>
                   </div>
                 </div>
               </div>

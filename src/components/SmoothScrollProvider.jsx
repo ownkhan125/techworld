@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
@@ -32,6 +33,35 @@ if (typeof window !== "undefined") {
 const NAV_OFFSET = 80;
 
 export default function SmoothScrollProvider({ children }) {
+  const pathname = usePathname();
+
+  // Route-change hardening. App Router keeps SmoothScrollProvider mounted
+  // across route transitions, so any ScrollTriggers registered by the
+  // outgoing page have already reverted via their gsap.context cleanup —
+  // but the incoming page's triggers are created against a fresh DOM whose
+  // scroll positions the ScrollTrigger cache hasn't measured yet. On top
+  // of that, App Router preserves scroll position (or scrolls to top) with
+  // a slight lag relative to when new sections mount. The net effect: the
+  // first render of a new page sees stale positions and one-shot onEnter
+  // events for above-the-fold sections never fire.
+  //
+  // The fix is a two-tick refresh: reset scroll, refresh ScrollTrigger,
+  // then refresh once more after layout has settled so any late-arriving
+  // images/fonts don't leave the trigger cache stale.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // Refresh on the next frame — DOM has mounted by now but layout can
+    // still shift as fonts resolve and images decode.
+    const raf = requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+    const t = setTimeout(() => ScrollTrigger.refresh(), 350);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(t);
+    };
+  }, [pathname]);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 

@@ -33,12 +33,10 @@ export default function Process() {
     <section id="process" className="section-pad relative">
       <div className="container-x">
         <SectionTitle
-          align="left"
           eyebrow="How it works"
           eyebrowTone="cyan"
           title="From sketch to fleet in four moves."
           sub="A workflow designed by people who've shipped to production at 3am and never want to do it that way again."
-          className="max-w-3xl"
         />
 
         <div className="relative mt-16 grid grid-cols-12 gap-6 lg:gap-10">

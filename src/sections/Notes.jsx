@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import CinematicSection from "@/components/CinematicSection";
 
@@ -169,7 +170,7 @@ export default function Notes() {
       <div className="container-x grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
         {/* LEFT */}
         <Reveal data-stage="heading">
-          <h2 className="text-balance text-2xl font-semibold leading-[1.45] tracking-tight sm:text-3xl">
+          <h2 className="text-center text-balance text-2xl font-semibold leading-[1.45] tracking-tight sm:text-3xl lg:text-left">
             <span className="text-fg">{FILLER_BEFORE}</span>{" "}
             {TABS.map((t, i) => (
               <button
@@ -221,9 +222,9 @@ export default function Notes() {
               <p className="text-[13px] font-semibold text-fg">{a.cardName}</p>
               <p className="mt-0.5 text-[12px] text-fg-3">
                 {a.cardDesc}{" "}
-                <a href="#" className="text-fg-2 underline-offset-2 hover:underline">
+                <Link href="/platform" className="text-fg-2 underline-offset-2 hover:underline">
                   Learn more
-                </a>
+                </Link>
               </p>
             </div>
           </div>
@@ -231,15 +232,21 @@ export default function Notes() {
 
         {/* RIGHT — outer "device" frame with brand accent wash; inside, a
             floating search pill above a 2-card result grid. Only the content
-            slots swap on tab change. */}
+            slots swap on tab change. Wrapped in dashed corner brackets so
+            the device reads as an instrument, not a floating card. */}
         <Reveal delay={120} data-stage="media">
-          <div
-            className="notes-frame relative overflow-hidden rounded-2xl border border-line bg-bg-2/80 p-5 sm:p-7"
-            style={{
-              boxShadow:
-                "inset 0 1px 0 rgba(255,255,255,0.05), inset 0 0 0 1px rgba(255,255,255,0.03), 0 60px 110px -36px rgba(0,0,0,0.85)",
-            }}
-          >
+          <div className="relative">
+            <span aria-hidden className="pointer-events-none absolute -left-3 -top-3 h-5 w-5 border-l border-t border-dashed border-fg-5" />
+            <span aria-hidden className="pointer-events-none absolute -right-3 -top-3 h-5 w-5 border-r border-t border-dashed border-fg-5" />
+            <span aria-hidden className="pointer-events-none absolute -left-3 -bottom-3 h-5 w-5 border-b border-l border-dashed border-fg-5" />
+            <span aria-hidden className="pointer-events-none absolute -right-3 -bottom-3 h-5 w-5 border-b border-r border-dashed border-fg-5" />
+            <div
+              className="notes-frame relative overflow-hidden rounded-2xl border border-line bg-bg-2/80 p-5 sm:p-7"
+              style={{
+                boxShadow:
+                  "inset 0 1px 0 rgba(255,255,255,0.05), inset 0 0 0 1px rgba(255,255,255,0.03), 0 60px 110px -36px rgba(0,0,0,0.85)",
+              }}
+            >
             {/* branded accent wash — diagonal cyan→violet glow, top-left */}
             <div
               aria-hidden
@@ -318,6 +325,7 @@ export default function Notes() {
             >
               <ResultCard data={a.primary} tone={a} active />
               <ResultCard data={a.secondary} tone={a} />
+            </div>
             </div>
           </div>
         </Reveal>
@@ -426,7 +434,7 @@ function ResultPreview({ data, tone, active }) {
             <span className="rounded-sm border border-line bg-surface px-1.5 py-0.5 font-mono text-[10px] text-fg-3">
               {data.title === "Japanese" ? "JA" : data.title === "German" ? "DE" : "??"}
             </span>
-            <span className="font-mono text-[10px] text-fg-4">⌘{data.title === "Japanese" ? "2" : "3"}</span>
+            <span className="font-mono text-[10px] text-fg-3">{data.title === "Japanese" ? "translated · just now" : "translated · 1m"}</span>
           </div>
           <p className="line-clamp-4 text-[12.5px] leading-[1.55] text-fg">
             {data.body}

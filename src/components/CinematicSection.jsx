@@ -208,7 +208,7 @@ export default function CinematicSection({
       if (mode === "onload") {
         requestAnimationFrame(() => enterTl.play(0));
       } else {
-        ScrollTrigger.create({
+        const st = ScrollTrigger.create({
           trigger: root,
           start: "top 80%",
           end: "bottom 20%",
@@ -227,6 +227,28 @@ export default function CinematicSection({
             enterTl.reverse();
           },
         });
+
+        // On mount, ScrollTrigger's onEnter is a transition — it only fires
+        // when scroll crosses the start line. If a section is *already*
+        // between start and end at mount (typical during client-side page
+        // navigation — the new page's mid-page sections land in the
+        // viewport without the user ever crossing the trigger), the section
+        // stays locked at the initial `opacity:0` state.
+        //
+        // Sync the initial state to whatever ScrollTrigger's current
+        // progress says: past-end → play + settle in exit, in-range → play
+        // enter, before-start → do nothing (default).
+        const syncInitial = () => {
+          if (!st) return;
+          if (st.isActive) {
+            enterTl.play();
+          } else if (st.progress >= 1) {
+            enterTl.progress(1, false);
+          }
+          // progress === 0 → leave initial gsap.set intact
+        };
+        // Wait one frame so layout has settled, then do the sync.
+        requestAnimationFrame(syncInitial);
       }
 
       // ===== SCROLL-TIED PARALLAX (lightweight depth) =====

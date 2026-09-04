@@ -221,16 +221,50 @@ export default function Ergonomics() {
   return (
     <CinematicSection className="section-pad relative overflow-hidden">
       <div className="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-        {/* LEFT: text + Download */}
+        {/* LEFT: eyebrow + heading + feature rows + Download.
+            Rows sit under a dashed rule so the column visually matches the
+            weight of the keyboard grid on the right. */}
         <Reveal data-stage="heading">
-          <h2 className="text-balance text-3xl font-semibold leading-[1.1] tracking-tight text-fg sm:text-4xl">
+          <p className="text-center font-mono text-[11px] uppercase tracking-[0.22em] text-fg-3 lg:text-left">
+            Ergonomics
+          </p>
+          <h2 className="mt-4 text-center text-balance text-3xl font-semibold leading-[1.1] tracking-tight text-fg sm:text-4xl lg:text-left">
             It's not about saving time.{" "}
             <span className="text-fg-3">
               It's about feeling like you're never wasting it.
             </span>
           </h2>
+
+          {/* dashed section rule + feature rows — echoes the keyboard grid's
+              rhythmic layout on the right */}
+          <div className="mt-10 flex items-center gap-3">
+            <span className="h-px flex-1 border-t border-dashed border-line" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-fg-5">
+              At a glance
+            </span>
+            <span className="h-px w-8 border-t border-dashed border-line" />
+          </div>
+
+          <dl className="mt-6 space-y-4">
+            {[
+              { k: "Every action", v: "Hotkey or alias — one press away." },
+              { k: "Every language", v: "React, TypeScript, Node, Python." },
+              { k: "Every surface", v: "Menubar, floating window, terminal." },
+            ].map((row) => (
+              <div
+                key={row.k}
+                className="grid grid-cols-[120px_1fr] items-baseline gap-4 sm:grid-cols-[140px_1fr]"
+              >
+                <dt className="font-mono text-[11px] uppercase tracking-[0.18em] text-fg-4">
+                  {row.k}
+                </dt>
+                <dd className="text-[14px] leading-relaxed text-fg-2">{row.v}</dd>
+              </div>
+            ))}
+          </dl>
+
           <div className="mt-10">
-            <Link href="#cta" className="btn-key h-11 px-5 text-[14px]">
+            <Link href="/contact" className="btn-key h-11 px-5 text-[14px]">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
                 <path d="M10.6 9.5c-.1 1.3-1 2.3-2 2.3-.7 0-1-.3-1.7-.3s-1 .3-1.6.3c-1.2 0-2.2-1.5-2.2-3 0-1.6 1-2.5 2-2.5.7 0 1.2.3 1.7.3s1-.3 1.8-.3c.7 0 1.4.4 1.8 1-1.4.8-1.2 2.6-.3 3.2zM8.2 3a2.4 2.4 0 0 1-.8 1.7 2 2 0 0 1-1.6.8c-.1-.7.3-1.5.8-2A2.4 2.4 0 0 1 8.2 3z" />
               </svg>
@@ -239,18 +273,25 @@ export default function Ergonomics() {
           </div>
         </Reveal>
 
-        {/* RIGHT: living keyboard grid */}
+        {/* RIGHT: living keyboard grid, wrapped in dashed corner brackets so
+            the grid reads as a framed instrument rather than a floating slab. */}
         <Reveal delay={120} data-stage="media">
-          <div className="kbd-grid">
-            {KEYS.map((k, i) => (
-              <KeyboardKey
-                key={i}
-                icon={k.icon}
-                iconBack={k.iconBack}
-                tone={k.tone}
-                animating={activeSet.has(i)}
-              />
-            ))}
+          <div className="relative">
+            <span aria-hidden className="pointer-events-none absolute -left-4 -top-4 h-6 w-6 border-l border-t border-dashed border-fg-5" />
+            <span aria-hidden className="pointer-events-none absolute -right-4 -top-4 h-6 w-6 border-r border-t border-dashed border-fg-5" />
+            <span aria-hidden className="pointer-events-none absolute -left-4 -bottom-4 h-6 w-6 border-b border-l border-dashed border-fg-5" />
+            <span aria-hidden className="pointer-events-none absolute -right-4 -bottom-4 h-6 w-6 border-b border-r border-dashed border-fg-5" />
+            <div className="kbd-grid">
+              {KEYS.map((k, i) => (
+                <KeyboardKey
+                  key={i}
+                  icon={k.icon}
+                  iconBack={k.iconBack}
+                  tone={k.tone}
+                  animating={activeSet.has(i)}
+                />
+              ))}
+            </div>
           </div>
         </Reveal>
       </div>

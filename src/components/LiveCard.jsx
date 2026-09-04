@@ -103,7 +103,7 @@ export default function LiveCard({
       ref={wrapRef}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      className={cn("live-card group block", className)}
+      className={cn("live-card border-sweep group block", className)}
       style={{ "--lc-radius": `${radius}px` }}
       {...elementProps}
       {...rest}

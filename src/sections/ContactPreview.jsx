@@ -18,16 +18,15 @@ export default function ContactPreview() {
 
   return (
     <section id="contact" className="section-pad relative">
-      <div className="container-x grid items-start gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+      <div className="container-x">
         <SectionTitle
-          align="left"
           eyebrow="Get in touch"
           eyebrowTone="amber"
           title="Tell us what you're building."
           sub="An engineer replies — no SDR funnel, no scheduling theatre. Most replies arrive within an hour."
         />
 
-        <Reveal>
+        <Reveal className="mx-auto mt-12 max-w-[820px]">
           <form
             onSubmit={onSubmit}
             className="card relative grid grid-cols-1 gap-4 p-6 sm:p-8"
@@ -73,12 +72,8 @@ export default function ContactPreview() {
               />
             </label>
             <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-              <p className="text-[12px] text-fg-4">
-                By submitting you agree to our{" "}
-                <a href="#" className="text-fg-2 underline-offset-2 hover:underline">
-                  privacy policy
-                </a>
-                .
+              <p className="text-[12px] text-fg-3">
+                By submitting you agree to our privacy policy.
               </p>
               <button type="submit" className="btn-key h-11 px-5 text-[14px]">
                 {sent ? "Sent — talk soon" : "Send message"}

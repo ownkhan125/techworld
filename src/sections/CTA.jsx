@@ -39,11 +39,11 @@ export default function CTA() {
               </Reveal>
               <Reveal as="div" delay={600} className="mt-9 flex flex-wrap items-center gap-3">
                 <MagneticButton as="div" strength={14} className="inline-flex">
-                  <Link href="#contact" className="btn-key h-11 px-5 text-[14px]">
+                  <Link href="/contact" className="btn-key h-11 px-5 text-[14px]">
                     Start building free
                   </Link>
                 </MagneticButton>
-                <Link href="#contact" className="btn-ghost h-11 px-5 text-[14px]">
+                <Link href="/contact" className="btn-ghost h-11 px-5 text-[14px]">
                   Talk to engineering →
                 </Link>
               </Reveal>

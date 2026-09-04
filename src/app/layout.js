@@ -7,6 +7,7 @@ import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import CustomCursor from "@/components/CustomCursor";
 import CardConstructProvider from "@/components/CardConstructProvider";
 import SnapScrollProvider from "@/components/SnapScrollProvider";
+import BorderSweepProvider from "@/components/BorderSweepProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({ children }) {
           <CustomCursor />
           <CardConstructProvider />
           <SnapScrollProvider />
+          <BorderSweepProvider />
         </SmoothScrollProvider>
       </body>
     </html>

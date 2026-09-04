@@ -5,12 +5,15 @@ import SplitText from "@/components/SplitText";
 import LiveCard, { LiveLayer } from "@/components/LiveCard";
 import CinematicSection from "@/components/CinematicSection";
 
+// The two community cards previously linked to `href: "#"` (dead). Since
+// there's no real Discord/GitHub URL to ship (the brand is fictional),
+// route both to /contact — that's the honest "reach the team" destination.
 const SOCIALS = [
   {
     title: "Discord",
     description: "12,000+ engineers, scientists and operators trading patterns daily.",
     cta: "Join the server",
-    href: "#",
+    href: "/contact",
     image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=80&auto=format&fit=crop",
     tone: "violet",
   },
@@ -18,7 +21,7 @@ const SOCIALS = [
     title: "GitHub",
     description: "The Techworld CLI, runtime and SDKs — open source and welcoming PRs.",
     cta: "Star the repo",
-    href: "#",
+    href: "/contact",
     image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=900&q=80&auto=format&fit=crop",
     tone: "cyan",
   },
@@ -40,10 +43,10 @@ export default function Community() {
             />
           </div>
           <Reveal as="div" delay={500} data-stage="cta" className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <Link href="#" className="btn-key h-11 px-5 text-[14px]">
+            <Link href="/contact" className="btn-key h-11 px-5 text-[14px]">
               Download for Mac
             </Link>
-            <Link href="#" className="btn-key h-11 px-5 text-[14px]">
+            <Link href="/contact" className="btn-key h-11 px-5 text-[14px]">
               Download for Windows
             </Link>
           </Reveal>
@@ -54,8 +57,18 @@ export default function Community() {
           </Reveal>
         </div>
 
+        {/* dashed rule bridges the closing CTA and the social cards below —
+            keeps the section reading as one composition */}
+        <div aria-hidden className="mx-auto mt-14 flex max-w-[720px] items-center gap-3 sm:mt-16">
+          <span className="h-px flex-1 border-t border-dashed border-line" />
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-fg-5">
+            Or find us
+          </span>
+          <span className="h-px flex-1 border-t border-dashed border-line" />
+        </div>
+
         {/* socials cards (interactive LiveCards) */}
-        <div className="mt-14 grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-2 sm:mt-16">
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-2 sm:mt-12">
           {SOCIALS.map((s, i) => (
             <Reveal key={s.title} delay={i * 100} data-stage="media">
               <LiveCard

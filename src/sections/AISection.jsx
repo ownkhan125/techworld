@@ -77,10 +77,7 @@ export default function AISection() {
             <RaycastWindow
               label="Techworld AI"
               search="What broke us-west yesterday?"
-              actions={[
-                { key: "↵", text: "Ask" },
-                { key: "⌘N", text: "New chat" },
-              ]}
+              status="answered · 4 sources"
               className="max-w-[1080px]"
             >
               <ListWithDetails
@@ -143,7 +140,7 @@ export default function AISection() {
 
         <Reveal data-stage="cta" className="mt-10 text-center">
           <Link
-            href="#ai"
+            href="/platform"
             className="inline-flex items-center gap-2 text-[13px] font-medium text-fg-2 transition-colors duration-300 hover:text-fg"
           >
             More about AI

@@ -8,13 +8,19 @@ import CinematicSection from "@/components/CinematicSection";
 /**
  * Hero — backed by the global ParticleBackground canvas + a soft radial
  * vignette overlay so text stays legible without obscuring the particles.
+ *
+ * Vertical rhythm:
+ *   The section takes ≥ 92svh so the hero always feels weighted on tall
+ *   monitors, but is capped so it never eats the whole screen on ultra-tall
+ *   portrait displays. `svh` (small viewport) is used so mobile browsers with
+ *   collapsing address bars don't produce jumping hero heights.
  */
 export default function Hero() {
   return (
     <CinematicSection
       id="top"
       mode="onload"
-      className="relative isolate overflow-hidden pt-28 sm:pt-36 pb-16 sm:pb-20"
+      className="relative isolate flex min-h-[clamp(640px,92svh,920px)] flex-col justify-center overflow-hidden pb-16 pt-28 sm:pb-20 sm:pt-32 lg:pt-36"
     >
       {/* radial focus vignette so text reads cleanly on the particle field */}
       <div
@@ -27,10 +33,23 @@ export default function Hero() {
         }}
       />
 
+      {/* Dashed corner brackets — decorative frame anchoring the hero content.
+          Hidden on small screens where they'd crowd the composition. */}
+      <div
+        aria-hidden
+        data-stage="frame"
+        className="pointer-events-none absolute inset-x-6 top-24 bottom-10 -z-[5] hidden md:block"
+      >
+        <span className="absolute left-0 top-0 h-8 w-8 border-l border-t border-dashed border-fg-5" />
+        <span className="absolute right-0 top-0 h-8 w-8 border-r border-t border-dashed border-fg-5" />
+        <span className="absolute left-0 bottom-0 h-8 w-8 border-b border-l border-dashed border-fg-5" />
+        <span className="absolute right-0 bottom-0 h-8 w-8 border-b border-r border-dashed border-fg-5" />
+      </div>
+
       <div className="container-x relative flex flex-col items-center text-center">
         <Reveal data-stage="frame">
           <Link
-            href="#features"
+            href="/platform"
             className="group inline-flex items-center gap-2 rounded-full border border-line bg-bg-2/60 px-3 py-1.5 text-[12px] font-medium text-fg-2 backdrop-blur-md transition-colors duration-300 hover:bg-bg-2/85 hover:text-fg"
           >
             <span className="relative flex size-1.5 items-center justify-center">
@@ -52,6 +71,7 @@ export default function Hero() {
           <SplitText
             text="Compute fabric for autonomous systems."
             as="h1"
+            onLoad
             baseDelay={80}
             step={55}
             className="mx-auto max-w-[18ch] text-balance text-[44px] font-semibold leading-[1.04] tracking-[-0.025em] text-fg sm:text-6xl lg:text-[80px]"
@@ -67,13 +87,13 @@ export default function Hero() {
         </Reveal>
 
         <Reveal as="div" delay={820} data-stage="cta" className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <Link href="#cta" className="btn-key h-11 px-5 text-[14px]">
+          <Link href="/contact" className="btn-key h-11 px-5 text-[14px]">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
               <path d="M10.6 9.5c-.1 1.3-1 2.3-2 2.3-.7 0-1-.3-1.7-.3s-1 .3-1.6.3c-1.2 0-2.2-1.5-2.2-3 0-1.6 1-2.5 2-2.5.7 0 1.2.3 1.7.3s1-.3 1.8-.3c.7 0 1.4.4 1.8 1-1.4.8-1.2 2.6-.3 3.2zM8.2 3a2.4 2.4 0 0 1-.8 1.7 2 2 0 0 1-1.6.8c-.1-.7.3-1.5.8-2A2.4 2.4 0 0 1 8.2 3z" />
             </svg>
             Download for Mac
           </Link>
-          <Link href="#cta" className="btn-key h-11 px-5 text-[14px]">
+          <Link href="/contact" className="btn-key h-11 px-5 text-[14px]">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <rect x="1" y="1" width="5.5" height="5.5" stroke="currentColor" strokeWidth="1.3" />
               <rect x="7.5" y="1" width="5.5" height="5.5" stroke="currentColor" strokeWidth="1.3" />
@@ -87,7 +107,7 @@ export default function Hero() {
         <Reveal as="div" delay={1000} data-stage="cta" className="mt-7 flex items-center gap-4 text-[12px] text-fg-3">
           <span className="font-mono text-[11px] text-fg-4">v0.9.21 · macOS 13+</span>
           <span className="h-3 w-px bg-line" />
-          <Link href="#" className="font-mono text-[11px] text-fg-3 underline-offset-4 transition-colors hover:text-fg hover:underline">
+          <Link href="/developers" className="font-mono text-[11px] text-fg-3 underline-offset-4 transition-colors hover:text-fg hover:underline">
             Install via homebrew
           </Link>
         </Reveal>

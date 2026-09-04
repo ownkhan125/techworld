@@ -288,51 +288,40 @@ export default function Testimonials() {
               </div>
             </div>
 
-            {/* arrow controls */}
-            <div className="mt-4 flex items-center justify-center gap-3">
-              <button
-                type="button"
-                onClick={() => go(-1)}
-                className="arrow-btn"
-                aria-label="Previous testimonial"
-              >
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M9 2L4 7l5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              {/* dot indicators */}
-              <div className="flex items-center gap-1.5">
-                {PEOPLE.map((p, i) => (
-                  <button
-                    key={`dot-${p.handle}`}
-                    type="button"
-                    aria-label={`Show ${p.name}`}
-                    onClick={() => setActive(i)}
-                    className={
-                      "h-1.5 rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] " +
-                      (i === active
-                        ? "w-6 bg-fg"
-                        : "w-1.5 bg-fg-4 hover:bg-fg-3")
-                    }
-                  />
-                ))}
-              </div>
-              <button
-                type="button"
-                onClick={() => go(1)}
-                className="arrow-btn"
-                aria-label="Next testimonial"
-              >
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M5 2l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
+            {/* Single canonical nav — dot-indicator strip. The coverflow
+                cards are also clickable and the arrow-key handler still
+                works; dropping the arrow buttons removes the third
+                redundant control. */}
+            <div className="mt-4 flex items-center justify-center gap-1.5">
+              {PEOPLE.map((p, i) => (
+                <button
+                  key={`dot-${p.handle}`}
+                  type="button"
+                  aria-label={`Show ${p.name}`}
+                  onClick={() => setActive(i)}
+                  className={
+                    "h-1.5 rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] " +
+                    (i === active
+                      ? "w-6 bg-fg"
+                      : "w-1.5 bg-fg-4 hover:bg-fg-3")
+                  }
+                />
+              ))}
             </div>
           </div>
         </Reveal>
 
-        {/* DETAIL PANEL */}
-        <div data-stage="body" className="relative mt-10 grid grid-cols-1 gap-8 border-t border-line pt-8 sm:mt-14 sm:gap-10 sm:pt-10 lg:grid-cols-2 lg:gap-16">
+        {/* DETAIL PANEL — dashed rule separator with a small centered marker
+            ties the coverflow to the detail panel below without a hard line. */}
+        <div data-stage="body" className="relative mt-10 sm:mt-14">
+          <div aria-hidden className="mb-8 flex items-center gap-3 sm:mb-10">
+            <span className="h-px flex-1 border-t border-dashed border-line" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-fg-5">
+              Their setup
+            </span>
+            <span className="h-px flex-1 border-t border-dashed border-line" />
+          </div>
+        <div className="grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-16">
           <div
             key={`left-${a.handle}`}
             className="space-y-8"
@@ -373,6 +362,7 @@ export default function Testimonials() {
               {a.quote}
             </p>
           </div>
+        </div>
         </div>
       </div>
     </CinematicSection>

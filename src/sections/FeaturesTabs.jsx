@@ -58,9 +58,9 @@ export default function FeaturesTabs() {
         {/* tab bar */}
         <Reveal
           data-stage="frame"
-          className="mt-10 flex justify-center sm:mt-12"
+          className="mt-6 flex justify-center sm:mt-8"
         >
-          <div className="relative inline-flex max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-line bg-bg/60 p-1 backdrop-blur-md sm:gap-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="border-sweep relative inline-flex max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-line bg-bg/60 p-1 backdrop-blur-md sm:gap-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {/* sliding indicator */}
             <span
               aria-hidden
@@ -95,7 +95,7 @@ export default function FeaturesTabs() {
         <div
           ref={trackRef}
           data-stage="media"
-          className="relative mt-10 flex h-[440px] items-center justify-center sm:mt-14 sm:h-[540px] md:h-[600px]"
+          className="relative mt-6 flex h-[460px] items-center justify-center sm:mt-8"
         >
           {TABS.map((t, i) => (
             <div
@@ -117,31 +117,16 @@ export default function FeaturesTabs() {
           ))}
         </div>
 
-        {/* arrow controls */}
-        <div data-stage="cta" className="mt-6 flex items-center justify-center gap-3">
-          <button
-            type="button"
-            onClick={() => setActive((i) => (i - 1 + TABS.length) % TABS.length)}
-            className="arrow-btn"
-            aria-label="Previous feature"
-          >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M9 2L4 7l5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <span className="font-mono text-[11px] tabular-nums text-fg-4">
+        {/* Slim slide counter — the pill tabs above are the primary nav,
+            so the previous prev/next arrow duplicated existing controls.
+            A dashed rule + monospace step indicator gives the slide stage
+            a visible foot without repeating the tab bar's affordance. */}
+        <div data-stage="cta" className="mx-auto mt-4 flex max-w-[820px] items-center gap-3">
+          <span aria-hidden className="h-px flex-1 border-t border-dashed border-line" />
+          <span className="font-mono text-[11px] tabular-nums text-fg-3">
             {String(active + 1).padStart(2, "0")} / {String(TABS.length).padStart(2, "0")}
           </span>
-          <button
-            type="button"
-            onClick={() => setActive((i) => (i + 1) % TABS.length)}
-            className="arrow-btn"
-            aria-label="Next feature"
-          >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M5 2l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
+          <span aria-hidden className="h-px flex-1 border-t border-dashed border-line" />
         </div>
       </div>
     </CinematicSection>
@@ -161,7 +146,7 @@ function AgentsSlide() {
     <RaycastWindow
       label="Agents"
       search="deploy vision-detector"
-      actions={[{ key: "↵", text: "Deploy" }, { key: "⌘", text: "Inspect" }]}
+      status="4 running"
     >
       <ListWithDetails
         items={items}
@@ -197,7 +182,7 @@ function AgentsSlide() {
 
 function VisionSlide() {
   return (
-    <RaycastWindow label="Vision · cam-04" actions={[{ key: "↵", text: "Snapshot" }, { key: "⌘D", text: "Detect" }]}>
+    <RaycastWindow label="Vision · cam-04" status="142 fps">
       <div className="relative h-[300px] sm:h-[340px]">
         <Image
           src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=85&auto=format&fit=crop"
@@ -252,7 +237,7 @@ function TracesSlide() {
     { name: "stream.out", a: 0.84, w: 0.12, color: "hsl(348 92% 70%)" },
   ];
   return (
-    <RaycastWindow label="Traces" search="req_4f81a · follow" actions={[{ key: "↵", text: "Open span" }]}>
+    <RaycastWindow label="Traces" search="req_4f81a · follow" status="4.2ms">
       <div className="p-5 sm:p-6">
         <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-fg-4">
           <span>trace · req_4f81a</span>
@@ -285,7 +270,7 @@ function TracesSlide() {
 
 function FleetSlide() {
   return (
-    <RaycastWindow label="Fleet" search="status all" actions={[{ key: "⌘R", text: "Refresh" }]}>
+    <RaycastWindow label="Fleet" search="status all" status="80 nodes">
       <div className="grid h-[300px] grid-cols-10 gap-1.5 p-5 sm:h-[340px]">
         {Array.from({ length: 80 }).map((_, i) => {
           const ok = (i * 7) % 17 !== 0;
@@ -319,7 +304,7 @@ function FleetSlide() {
 
 function ScriptsSlide() {
   return (
-    <RaycastWindow label="Scripts" search="rotate-keys --region us-west" actions={[{ key: "↵", text: "Run" }]}>
+    <RaycastWindow label="Scripts" search="rotate-keys --region us-west" status="running">
       <div className="p-5 sm:p-6">
         <pre className="overflow-hidden rounded-lg border border-line bg-bg/70 p-4 font-mono text-[12px] leading-relaxed text-fg-2">
           <span className="text-fg-4">// rotate-keys.ts</span>{"\n"}

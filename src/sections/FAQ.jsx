@@ -75,15 +75,14 @@ export default function FAQ() {
 
   return (
     <section id="faq" className="section-pad relative">
-      <div className="container-x grid items-start gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
+      <div className="container-x">
         <SectionTitle
-          align="left"
           eyebrow="Frequently asked"
           eyebrowTone="violet"
           title="Answers, before you have to ask."
           sub="If you don't see what you need, our team replies in under an hour during business hours."
         />
-        <Reveal>
+        <Reveal className="mx-auto mt-12 max-w-[880px]">
           <div className="card divide-y divide-line p-2 sm:p-4">
             <div className="px-4">
               {ITEMS.map((it, i) => (

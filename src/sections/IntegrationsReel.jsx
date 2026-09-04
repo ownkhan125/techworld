@@ -53,7 +53,7 @@ const ITEMS = [
     title: "Realtime Bus",
     description: "A wire-fast pub/sub for sensor streams, agent chatter, and operator overrides.",
     iconLetter: "R",
-    image: "https://images.unsplash.com/photo-1581090700227-1e8e6c6f6c0c?w=900&q=80&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&q=80&auto=format&fit=crop",
     tone: "violet",
   },
   {
@@ -99,16 +99,14 @@ export default function IntegrationsReel() {
 
   return (
     <CinematicSection className="section-pad relative overflow-hidden">
-      <div className="container-x flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+      <div className="container-x">
         <SectionTitle
-          align="left"
           eyebrow="The library"
           eyebrowTone="cyan"
           title="A growing library of building blocks."
           sub="Drop-in modules for vision, agents, edge devices, observability and security — composable in any graph."
-          className="max-w-[32rem]"
         />
-        <div data-stage="cta" className="flex items-center gap-2">
+        <div data-stage="cta" className="mt-8 flex items-center justify-center gap-2">
           <button
             type="button"
             onClick={() => scrollBy(-1)}
@@ -146,21 +144,27 @@ export default function IntegrationsReel() {
       </div>
 
       <div data-stage="cta" className="container-x mt-8">
-        <Link
-          href="#cta"
-          className="inline-flex items-center gap-2 text-[13px] font-medium text-fg-3 transition-colors duration-300 hover:text-fg"
-        >
-          Browse the full library
-          <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-            <path
-              d="M3 6h6m0 0L6.5 3.5M9 6L6.5 8.5"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-2 text-[13px] font-medium text-fg-3 transition-colors duration-300 hover:text-fg"
+          >
+            Browse the full library
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+              <path
+                d="M3 6h6m0 0L6.5 3.5M9 6L6.5 8.5"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Link>
+          <span aria-hidden className="h-px flex-1 border-t border-dashed border-line" />
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-fg-5">
+            The library · {String(ITEMS.length).padStart(2, "0")} shown
+          </span>
+        </div>
       </div>
     </CinematicSection>
   );

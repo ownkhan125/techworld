@@ -32,6 +32,11 @@ const TONE = {
 /**
  * ExtCard — 360x536 card.
  * Layout: header (176 tall: icon + title + add-button + description + divider) over an image (360 tall).
+ *
+ * Renders as a plain <div> when `href` is nullish so the card doesn't
+ * pretend to be clickable when there's no destination. Pass an `href` to
+ * turn it back into an <a>; the previous `href="#"` default was a dead
+ * affordance that flagged in the link audit.
  */
 export default function ExtCard({
   title,
@@ -40,15 +45,20 @@ export default function ExtCard({
   image,
   imageAlt,
   tone = "cyan",
-  href = "#",
+  href,
   className,
 }) {
   const t = TONE[tone] || TONE.cyan;
+  const Tag = href ? "a" : "div";
+  const anchorProps = href ? { href } : {};
   return (
-    <a
-      href={href}
+    <Tag
+      {...anchorProps}
       className={cn(
-        "ext-card group relative flex h-[480px] w-[300px] flex-col overflow-hidden rounded-[20px] bg-bg-2/92 backdrop-blur-md transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 sm:h-[520px] sm:w-[340px]",
+        "ext-card group relative flex h-[480px] w-[300px] flex-col overflow-hidden rounded-[20px] bg-bg-2/92 backdrop-blur-md sm:h-[520px] sm:w-[340px]",
+        href
+          ? "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1"
+          : "",
         className
       )}
       style={{ boxShadow: t.shadow }}
@@ -101,6 +111,6 @@ export default function ExtCard({
         />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-bg-2/85 via-transparent to-transparent" />
       </div>
-    </a>
+    </Tag>
   );
 }

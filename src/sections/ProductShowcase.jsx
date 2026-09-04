@@ -87,7 +87,13 @@ export default function ProductShowcase() {
               <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-fg-4">
                 techworld · {SLIDES[active].label.toLowerCase()}
               </span>
-              <span className="font-mono text-[10px] text-fg-5">⌘K</span>
+              <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-fg-3">
+                <span className="relative flex size-1.5 items-center justify-center">
+                  <span className="absolute inset-0 animate-ping rounded-full bg-cyan/60" />
+                  <span className="relative size-1.5 rounded-full bg-cyan" />
+                </span>
+                live
+              </span>
             </div>
 
             {/* slide stage */}

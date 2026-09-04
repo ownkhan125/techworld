@@ -24,16 +24,22 @@ html {
   --surface-2: rgba(255, 255, 255, 0.055);
   --surface-3: rgba(255, 255, 255, 0.085);
 
-  /* foreground ladder */
+  /* foreground ladder
+     Small mono labels & meta chips sit on top of the animated particle bg,
+     so the bottom two steps need to stay readable, not merely present.
+     Bumped fg-4 / fg-5 another step to reach WCAG-adjacent contrast on the
+     darkest surface, without collapsing the ladder relationship. */
   --fg: #f5f7fb;
-  --fg-2: #cdd1d9;
-  --fg-3: #8e93a0;
-  --fg-4: #545968;
-  --fg-5: #2c303b;
+  --fg-2: #d3d7df;
+  --fg-3: #a7adba;
+  --fg-4: #8b90a0;
+  --fg-5: #6a7080;
 
-  /* hairlines */
-  --line: rgba(255, 255, 255, 0.08);
-  --line-strong: rgba(255, 255, 255, 0.14);
+  /* hairlines
+     Raised from 0.08/0.14 to 0.14/0.22 — the previous values disappeared on
+     the particle bg. Kept low enough to stay hairline; not dominant. */
+  --line: rgba(255, 255, 255, 0.14);
+  --line-strong: rgba(255, 255, 255, 0.22);
 
   /* accents */
   --accent-cyan: hsl(178 92% 66%);
@@ -71,7 +77,7 @@ html {
   --s-14: 224px;
 
   /* layout */
-  --container: 1440px;
+  --container: 1600px;
   --container-narrow: 960px;
   --nav-h: 64px;
 
@@ -177,13 +183,13 @@ body {
   padding-inline: clamp(20px, 4vw, 32px);
 }
 .section-pad {
-  padding-block: clamp(52px, 7vw, 112px);
+  padding-block: clamp(40px, 5.5vw, 88px);
 }
 /* Tighter rhythm for sections that visually flow into their neighbour
    (e.g. a hero + closing CTA pair). Explicit opt-in — do not swap for
    .section-pad wholesale, or independent sections will feel cramped. */
 .section-pad-tight {
-  padding-block: clamp(40px, 5vw, 80px);
+  padding-block: clamp(32px, 4vw, 64px);
 }
 
 /* hairline grid background */
@@ -194,60 +200,228 @@ body {
   background-size: 48px 48px;
 }
 
-/* ------ custom Shift-keycap cursor (desktop only) ------ */
+/* ------ premium compass cursor (desktop only) ------
+   Three custom layers, no default-cursor holdovers:
+     .cursor-glyph — the primary mark. An SVG "compass rose": a hairline
+       ring with a fine cyan crosshair inside. Rotates gently at idle for a
+       precision-instrument feel. Snaps to the pointer with almost no lag.
+     .cursor-halo  — a soft blurred cyan halo that trails a few frames behind
+       so quick movements leave a comet-tail; opacity is very low so it
+       reads as glow, never as a duplicate cursor.
+     .cursor-pulse — a one-shot expanding ring played on mousedown for
+       tactile click feedback. Not a persistent layer.
+   Positioning (translate3d + centering) is owned by JS. */
 html.has-custom-cursor,
 html.has-custom-cursor body,
 html.has-custom-cursor * {
   cursor: none !important;
 }
-.cursor-shift {
+.cursor-glyph,
+.cursor-halo {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 9999;
   pointer-events: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--fg);
   opacity: 0;
-  /* transform is owned by JS (translate3d + center offset) */
   will-change: transform, opacity;
+  transition: opacity 0.25s var(--ease-out-q);
+}
+
+/* Halo — soft cyan disc that lags for a "comet-tail" effect. */
+.cursor-halo {
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    hsla(178, 92%, 66%, 0.32) 0%,
+    hsla(178, 92%, 66%, 0.12) 40%,
+    transparent 72%
+  );
+  filter: blur(4px);
+  transition:
+    opacity 0.32s var(--ease-out-q),
+    background 0.32s var(--ease-out-q),
+    width 0.35s var(--ease-out-q),
+    height 0.35s var(--ease-out-q),
+    margin 0.35s var(--ease-out-q);
+}
+
+/* Compass glyph — precision mark that follows the pointer directly. */
+.cursor-glyph {
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  color: hsl(178, 92%, 76%);
+  filter: drop-shadow(0 0 4px hsla(178, 92%, 66%, 0.55))
+          drop-shadow(0 0 1px rgba(6, 7, 10, 0.85));
   transition:
     opacity 0.25s var(--ease-out-q),
-    color 0.18s var(--ease-out-q);
-  /* no background, no border, no shadow — pure glyph */
-  background: transparent;
-  border: 0;
-  box-shadow: none;
+    width 0.35s var(--ease-out-q),
+    height 0.35s var(--ease-out-q),
+    margin 0.35s var(--ease-out-q),
+    color 0.32s var(--ease-out-q),
+    filter 0.32s var(--ease-out-q);
 }
-.cursor-shift svg {
+.cursor-glyph svg {
   display: block;
-  width: 22px;
-  height: 22px;
-  transition: transform 0.18s var(--ease-out-q);
-  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.55));
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
-.cursor-shift--visible {
+
+/* Slow idle rotation makes the mark feel like a live instrument, not a
+   static ring. Suspended on hover so the pointer feels precise when the
+   user is aiming at something. */
+@keyframes cursorSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.cursor-glyph__rose {
+  transform-origin: 12px 12px;
+  animation: cursorSpin 14s linear infinite;
+  transition: opacity 0.28s var(--ease-out-q);
+}
+.cursor-glyph__ring {
+  transition:
+    stroke 0.32s var(--ease-out-q),
+    stroke-opacity 0.32s var(--ease-out-q);
+}
+.cursor-glyph__dot {
+  transition:
+    fill 0.28s var(--ease-out-q),
+    r 0.28s var(--ease-out-q);
+}
+
+.cursor-glyph--visible,
+.cursor-halo--visible {
   opacity: 1;
 }
-.cursor-shift--hover svg {
-  transform: scale(1.18);
+
+/* Hover — compass ring contracts, brand color intensifies, idle spin
+   pauses so the cursor feels "locked on" to the interactive target. */
+.cursor-glyph--hover {
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  color: hsl(178, 92%, 82%);
+  filter: drop-shadow(0 0 10px hsla(178, 92%, 66%, 0.75))
+          drop-shadow(0 0 1px rgba(6, 7, 10, 0.85));
 }
-.cursor-shift--pressed {
-  color: var(--accent-cyan);
+.cursor-glyph--hover .cursor-glyph__rose {
+  animation-play-state: paused;
 }
-.cursor-shift--pressed svg {
-  transform: scale(0.85);
+.cursor-halo--hover {
+  width: 68px;
+  height: 68px;
+  margin: -34px 0 0 -34px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    hsla(178, 92%, 66%, 0.42) 0%,
+    hsla(178, 92%, 66%, 0.16) 45%,
+    transparent 78%
+  );
 }
-/* fall back to native cursor when reduced-motion preferred or coarse pointer */
+
+/* Press — glyph blinks violet, halo pulses out via a one-shot layer. */
+.cursor-glyph--pressed {
+  color: hsl(262, 90%, 82%);
+  filter: drop-shadow(0 0 12px hsla(262, 90%, 72%, 0.7))
+          drop-shadow(0 0 1px rgba(6, 7, 10, 0.85));
+}
+.cursor-halo--pressed {
+  background: radial-gradient(
+    circle at 50% 50%,
+    hsla(262, 90%, 72%, 0.48) 0%,
+    hsla(262, 90%, 72%, 0.14) 42%,
+    transparent 78%
+  );
+}
+
+/* One-shot click pulse layer */
+@keyframes cursorPulse {
+  from {
+    transform: scale(0.4);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+.cursor-pulse {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  pointer-events: none;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  border-radius: 999px;
+  border: 1px solid hsla(178, 92%, 66%, 0.9);
+  animation: cursorPulse 0.6s var(--ease-out-cinema) forwards;
+}
+
 @media (prefers-reduced-motion: reduce), (pointer: coarse), (hover: none) {
   html.has-custom-cursor,
   html.has-custom-cursor body,
   html.has-custom-cursor * {
     cursor: auto !important;
   }
-  .cursor-shift { display: none !important; }
+  .cursor-glyph, .cursor-halo, .cursor-pulse { display: none !important; }
+}
+
+/* ------ SectionFrame — border build-in trace ------
+   A thin hairline frame drawn as an SVG rect around a section. The path
+   starts fully offset (invisible) and animates its stroke-dashoffset to 0
+   as the section enters the viewport, tracing the perimeter. Once drawn
+   the frame stays as subtle chrome (opacity ~0.4) so the section looks
+   "assembled" rather than pending. */
+.sf {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+.sf__rect {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.24);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: var(--sf-len, 4000);
+  stroke-dashoffset: var(--sf-len, 4000);
+  transition: stroke-dashoffset 1.35s var(--ease-out-cinema),
+              opacity 0.6s var(--ease-out-q);
+  opacity: 0.85;
+}
+.sf.is-drawn .sf__rect {
+  stroke-dashoffset: 0;
+  opacity: 0.45;
+}
+/* Corner ticks are decorative — small brackets at each corner that fade in
+   after the perimeter has drawn. They anchor the frame visually. */
+.sf__tick {
+  fill: none;
+  stroke: rgba(94, 240, 230, 0.75);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-out-q) 0.65s;
+}
+.sf.is-drawn .sf__tick { opacity: 0.9; }
+@media (prefers-reduced-motion: reduce) {
+  .sf__rect {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+    opacity: 0.4 !important;
+  }
+  .sf__tick { opacity: 0.85 !important; transition: none !important; }
 }
 
 /* ------ premium button (key cap) ------ */
@@ -356,9 +530,12 @@ html.has-custom-cursor * {
 .reveal-stagger.is-visible > *:nth-child(8) { transition-delay: 560ms; }
 
 /* split-text reveal:
-   - parent gets .split, toggled .is-visible by IO
-   - each word is wrapped in .split-word (mask) holding a .split-inner that slides up
-   - mask includes descender room via padding/negative margin so 'g','y','f' aren't clipped
+   - parent gets .split
+   - each word is wrapped in .split-word (mask) holding a .split-inner
+   - GSAP owns the transform tween (no CSS transition — so scrub-tied
+     ScrollTriggers don't fight a lingering CSS ease)
+   - mask includes descender room via padding/negative margin so 'g','y','f'
+     aren't clipped
 */
 .split {
   /* allow natural text flow */
@@ -372,12 +549,16 @@ html.has-custom-cursor * {
 }
 .split-inner {
   display: inline-block;
-  transform: translate3d(0, 110%, 0);
-  transition: transform 1s var(--ease-out-cinema);
-  will-change: transform;
+  will-change: transform, opacity, filter;
 }
-.split.is-visible .split-inner {
-  transform: translate3d(0, 0, 0);
+/* Reduced-motion: skip the initial hidden state so text is always readable
+   even if JS hasn't finished mounting yet. */
+@media (prefers-reduced-motion: reduce) {
+  .split-inner {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
 }
 
 /* infinite marquee */
@@ -534,6 +715,59 @@ html.has-custom-cursor * {
   0% { opacity: 0; transform: scale(0.92); }
   60% { opacity: 1; transform: scale(1.03); }
   100% { opacity: 1; transform: scale(1); }
+}
+
+/* ===== Border sweep — subtle "light builds the border" effect =====
+   Rendered as an overlay pseudo-element on `.border-sweep`. Runs once
+   when the parent gains `.is-swept` (added by IntersectionObserver in
+   BorderSweepProvider). Uses a horizontal gradient sweep that reads as
+   a beam of light passing along the border rather than a shimmer.
+   Sits above the border but below content because the pseudo is masked
+   to just the ring — content underneath is unaffected. */
+.border-sweep,
+.card {
+  position: relative;
+  isolation: isolate;
+}
+.border-sweep::after,
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 15%,
+    hsla(178, 92%, 66%, 0.55) 42%,
+    hsla(262, 90%, 72%, 0.35) 55%,
+    transparent 82%
+  );
+  background-size: 220% 100%;
+  background-position: 130% 0;
+  opacity: 0;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  z-index: 1;
+  transition: opacity 260ms ease;
+}
+.border-sweep.is-swept::after,
+.card.is-swept::after {
+  animation: border-sweep-once 1600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes border-sweep-once {
+  0%   { opacity: 0; background-position: 130% 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { opacity: 0; background-position: -40% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .border-sweep.is-swept::after,
+  .card.is-swept::after { animation: none; opacity: 0; }
 }
 
 /* ===== Game-card: 3D interactive feature pill =====
@@ -880,23 +1114,33 @@ html.has-custom-cursor * {
 
 .dev-fig {
   position: relative;
-  min-height: 280px;
-  padding: 28px 28px;
+  /* Reduced from 260/320/360 — the previous heights let the SVG stage
+     grow until the illustration eclipsed the accompanying paragraph. A
+     tighter min-height (with matching cap on the SVG stage below) makes
+     text and figure feel like peers on the grid. */
+  min-height: 240px;
+  padding: 24px 26px;
   display: flex;
   flex-direction: column;
-  background: transparent;
-  transition: transform 0.5s var(--ease-out-q);
-  /* hairline trick: outer 1px ring shared with neighbours */
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07);
-  /* stagger reveal */
+  /* Solid backing so the cell reads as a proper card on the particle bg;
+     transparent-in-cinematic isolation kept where needed via [data-cinematic]. */
+  background: linear-gradient(180deg, rgba(14, 16, 22, 0.72), rgba(10, 12, 18, 0.82));
+  transition:
+    transform 0.5s var(--ease-out-q),
+    background-color 0.5s var(--ease-out-q),
+    box-shadow 0.5s var(--ease-out-q);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 18px 32px -20px rgba(0, 0, 0, 0.7);
   opacity: 0;
   transform: translateY(18px);
 }
 @media (min-width: 768px) {
-  .dev-fig { min-height: 360px; padding: 32px 34px; }
+  .dev-fig { min-height: 280px; padding: 28px 30px; }
 }
 @media (min-width: 1280px) {
-  .dev-fig { min-height: 400px; padding: 36px 40px; }
+  .dev-fig { min-height: 320px; padding: 30px 36px; }
 }
 /* Outside cinematic sections: keep the original IO-based stagger reveal */
 .is-visible .dev-fig,
@@ -970,21 +1214,42 @@ html.has-custom-cursor * {
   justify-content: center;
   flex: 1;
   width: 100%;
-  margin-top: 40px;
+  min-height: 0;
+  margin-top: 32px;
+  padding: 6px 4px 4px;
   transition: transform 0.7s var(--ease-out-cinema);
   will-change: transform;
+  overflow: visible;
 }
+/* SVG scale — was max-width 82/90% with no height cap, so the Figma-style
+   illustrations grew to dominate their cells. Explicit width AND height caps
+   plus a smaller ceiling on wider viewports make them read as diagrams
+   accompanying the text, not the other way around.
+   `!important` overrides the inline `style={{maxWidth:"100%",height:"auto"}}`
+   that ships with each Fig component (adding it here avoids touching every
+   generated SVG file individually). */
 .dev-fig__stage > svg {
   display: block;
-  max-width: 78%;
-  height: auto;
+  width: auto !important;
+  height: auto !important;
+  max-width: 62% !important;
+  max-height: 180px !important;
+}
+@media (min-width: 768px) {
+  .dev-fig__stage > svg { max-width: 58% !important; max-height: 190px !important; }
 }
 @media (min-width: 1024px) {
-  .dev-fig__stage > svg { max-width: 88%; }
+  .dev-fig__stage > svg { max-width: 55% !important; max-height: 200px !important; }
+}
+@media (min-width: 1280px) {
+  .dev-fig__stage > svg { max-width: 52% !important; max-height: 210px !important; }
 }
 
 .dev-fig--text {
-  justify-content: flex-end;
+  /* Text cells previously bottom-aligned (justify-content: flex-end) while
+     image cells centre-aligned, so paired rows never sat on a shared axis.
+     Centre both so the heading and the illustration meet at the midline. */
+  justify-content: center;
 }
 .dev-fig--text .dev-fig__stage { display: none; }
 

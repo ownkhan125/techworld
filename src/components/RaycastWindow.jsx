@@ -10,17 +10,17 @@ export default function RaycastWindow({
   label = "techworld",
   search = "",
   children,
-  actions = [
-    { key: "↵", text: "Open" },
-    { key: "⌘K", text: "Actions" },
-  ],
+  // Static kbd hint chips (⏎ / ⌘K etc.) were removed — they suggested
+  // real hotkeys but nothing responded. The action bar now carries a
+  // status indicator instead, which reads as live product telemetry.
+  status = "live",
   className,
   bodyClassName,
 }) {
   return (
     <div
       className={cn(
-        "relative mx-auto w-full max-w-[760px] overflow-hidden rounded-2xl border border-line bg-bg-2/90 text-left backdrop-blur-xl",
+        "border-sweep relative mx-auto w-full max-w-[760px] overflow-hidden rounded-2xl border border-line bg-bg-2/90 text-left backdrop-blur-xl",
         className
       )}
       style={{
@@ -59,8 +59,12 @@ export default function RaycastWindow({
             <span className="text-fg-4">{label}</span>
           )}
         </div>
-        <span className="hidden font-mono text-[10px] text-fg-4 sm:inline-flex">
-          ⌘K
+        <span className="hidden items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-fg-3 sm:inline-flex">
+          <span className="relative flex size-1.5 items-center justify-center">
+            <span className="absolute inset-0 animate-ping rounded-full bg-cyan/60" />
+            <span className="relative size-1.5 rounded-full bg-cyan" />
+          </span>
+          {status}
         </span>
       </div>
 
@@ -69,21 +73,17 @@ export default function RaycastWindow({
         {children}
       </div>
 
-      {/* action bar */}
-      <div className="flex h-10 items-center justify-between border-t border-line/80 bg-bg/40 px-3">
-        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-fg-4">
+      {/* action bar — status ticker (no fake kbd hints). */}
+      <div className="flex h-10 items-center justify-between border-t border-line/80 bg-bg/50 px-3">
+        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-fg-3">
           techworld
         </span>
-        <div className="flex items-center gap-3 text-[11px] text-fg-3">
-          {actions.map((a, i) => (
-            <span key={i} className="flex items-center gap-1.5">
-              <kbd className="inline-flex h-[20px] min-w-[20px] items-center justify-center rounded border border-line bg-surface px-1 font-mono text-[10px] text-fg-2">
-                {a.key}
-              </kbd>
-              <span>{a.text}</span>
-            </span>
-          ))}
-        </div>
+        <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-fg-3">
+          <span className="hidden sm:inline">session</span>
+          <span className="tabular-nums text-fg-2">{label}</span>
+          <span className="text-fg-4">·</span>
+          <span className="text-fg-2">{status}</span>
+        </span>
       </div>
     </div>
   );
